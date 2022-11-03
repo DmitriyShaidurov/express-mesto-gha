@@ -8,7 +8,7 @@ const getCard = async (req, res) => {
 
 const deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId).orFail(new Error('NotFound'))
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.status(200).send({ data: card }))
     .catch((err) => {
       if (err.message === 'NotFound') {
         return res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
@@ -23,7 +23,7 @@ const deleteCard = (req, res) => {
 const createCard = (req, res) => {
   Card.create(req.body)
     .then((card) => {
-      res.status(201).send(card);
+      res.status(200).send(card);
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -38,7 +38,7 @@ const likeCard = (req, res) => Card.findByIdAndUpdate(
   { $addToSet: { likes: req.params.cardId } }, // добавить _id в массив, если его там нет
   { new: true },
 ).orFail(new Error('NotFound'))
-  .then((card) => res.status(201).send(card))
+  .then((card) => res.status(200).send(card))
   .catch((err) => {
     if (err.message === 'NotFound') {
       return res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
@@ -55,7 +55,7 @@ const dislikeCard = (req, res) => Card.findByIdAndUpdate(
   { new: true },
 ).orFail(new Error('NotFound'))
   .then((card) => {
-    res.status(201).send(card);
+    res.status(200).send(card);
   })
   .catch((err) => {
     if (err.message === 'NotFound') {
