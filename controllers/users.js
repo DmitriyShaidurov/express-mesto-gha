@@ -28,8 +28,11 @@ const getUserById = (req, res) => {
 
 const createUser = (req, res) => {
   User.create(req.body)
+    // eslint-disable-next-line consistent-return
     .then((user) => {
-      res.status(200).send(user);
+      if (user) {
+        return res.status(200).send(user);
+      }
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {

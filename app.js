@@ -25,6 +25,10 @@ app.use(routesUser);
 
 app.use(routesCard);
 
+app.use((req, res) => {
+  res.status(404).send({ message: 'Такой страницы не существует' });
+});
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
