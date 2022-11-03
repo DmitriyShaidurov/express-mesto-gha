@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 
+// eslint-disable-next-line consistent-return
 const getUser = async (req, res) => {
-  const user = await User.find({});
-  res.send(user);
+  try {
+    const user = await User.find({});
+    res.send(user);
+  } catch (err) {
+    return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+  }
 };
 
 const getUserById = (req, res) => {
@@ -34,7 +39,7 @@ const createUser = (req, res) => {
     });
 };
 const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.body.owner, { name: req.body.name, about: req.body.about }).orFail(new Error('NotFound'))
+  User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }).orFail(new Error('NotFound'))
     .then((user) => res.status(201).send(user))
     .catch((err) => {
       if (err.message === 'NotFound') {
@@ -48,7 +53,7 @@ const updateUser = (req, res) => {
 };
 
 const updateUserAvatar = (req, res) => {
-  User.findByIdAndUpdate(req.body.owner, { avatar: req.body.avatar }).orFail(new Error('NotFound'))
+  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }).orFail(new Error('NotFound'))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.message === 'NotFound') {
