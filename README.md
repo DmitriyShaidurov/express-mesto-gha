@@ -14,3 +14,20 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+
+
+
+const updateUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).send({ message: 'User с указанным _id не найден' });
+    }
+    // eslint-disable-next-line max-len
+    const newUser = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true, runValidators: true });
+    res.send(newUser);
+  } catch (err) {
+    return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+  }
+};
