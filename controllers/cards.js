@@ -2,8 +2,12 @@ const mongoose = require('mongoose');
 const Card = require('../models/card');
 
 const getCard = async (req, res) => {
-  const card = await Card.find({});
-  res.send(card);
+  try {
+    const card = await Card.find({});
+    return res.send(card);
+  } catch (err) {
+    return res.status(500).send({ message: 'На сервере произошла ошибка' });
+  }
 };
 
 const deleteCard = (req, res) => {
@@ -14,9 +18,9 @@ const deleteCard = (req, res) => {
         return res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
       }
       if (err instanceof mongoose.Error.CastError) {
-        return res.status(400).send({ message: 'Некорректный _id', err });
+        return res.status(400).send({ message: 'Некорректный _id' });
       }
-      return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
 
@@ -29,14 +33,13 @@ const createCard = (req, res) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        return res.status(400).send({ message: 'Переданы некорректные данные при создании карточки.', err });
+        return res.status(400).send({ message: 'Переданы некорректные данные при создании карточки.' });
       }
-      return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
 
 const likeCard = (req, res) => {
-  console.log(req.user._id);
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
@@ -48,9 +51,9 @@ const likeCard = (req, res) => {
         return res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
       }
       if (err instanceof mongoose.Error.CastError) {
-        return res.status(400).send({ message: 'Переданы некорректные данные для постановки лайка', err });
+        return res.status(400).send({ message: 'Переданы некорректные данные для постановки лайка' });
       }
-      return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
 
@@ -69,9 +72,9 @@ const dislikeCard = (req, res) => {
       }
       if (err instanceof mongoose.Error.CastError) {
       // eslint-disable-next-line max-len
-        return res.status(400).send({ message: 'Переданы некорректные данные для удаления лайка', err });
+        return res.status(400).send({ message: 'Переданы некорректные данные для удаления лайка' });
       }
-      return res.status(500).send({ message: 'На сервере произошла ошибка', err });
+      return res.status(500).send({ message: 'На сервере произошла ошибка' });
     });
 };
 

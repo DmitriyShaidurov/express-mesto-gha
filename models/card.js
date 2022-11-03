@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const user = require('./user');
 
 const { Schema } = mongoose;
 
@@ -16,10 +17,12 @@ const cardSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     required: true,
+    ref: user,
   },
   likes: {
     type: [Schema.Types.ObjectId],
     default: [],
+    ref: user,
   },
   createdAt: {
     type: Date,
