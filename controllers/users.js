@@ -48,7 +48,7 @@ const updateUser = (req, res) => {
       if (err.message === 'NotFound') {
         return res.status(404).send({ message: 'Пользователь с указанным _id не найден.' });
       }
-      if (err instanceof mongoose.Error.CastError) {
+      if (err instanceof mongoose.Error.ValidationError) {
         return res.status(400).send({ message: 'Переданы некорректные данные при обновлении профиля.', err });
       }
       return res.status(500).send({ message: 'На сервере произошла ошибка', err });
@@ -62,8 +62,8 @@ const updateUserAvatar = (req, res) => {
       if (err.message === 'NotFound') {
         return res.status(404).send({ message: 'User с указанным _id не найден' });
       }
-      if (err instanceof mongoose.Error.CastError) {
-        return res.status(400).send({ message: 'Некорректный _id', err });
+      if (err instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара', err });
       }
       return res.status(500).send({ message: 'На сервере произошла ошибка', err });
     });
