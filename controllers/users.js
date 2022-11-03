@@ -42,7 +42,7 @@ const createUser = (req, res) => {
     });
 };
 const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }).orFail(new Error('NotFound'))
+  User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }, { new: true, runValidators: true }).orFail(new Error('NotFound'))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.message === 'NotFound') {
@@ -56,14 +56,15 @@ const updateUser = (req, res) => {
 };
 
 const updateUserAvatar = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }).orFail(new Error('NotFound'))
+  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new Error('NotFound'), new Error('ValidationError'))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
+      console.log(err);
       if (err.message === 'NotFound') {
         return res.status(404).send({ message: 'User с указанным _id не найден' });
       }
       if (err instanceof mongoose.Error.ValidationError) {
-        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара', err });
+        return res.status(400).send({ message: 'Переданы некорректные данные при обновлении аватара.', err });
       }
       return res.status(500).send({ message: 'На сервере произошла ошибка', err });
     });
