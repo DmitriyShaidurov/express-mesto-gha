@@ -9,7 +9,7 @@ const getUser = async (req, res) => {
 const getUserById = (req, res) => {
   User.findById(req.params.userId).orFail(new Error('NotFound'))
     // eslint-disable-next-line consistent-return
-    .then((user) => res.send(user))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.message === 'NotFound') {
         return res.status(404).send({ message: 'User с указанным _id не найден' });
@@ -24,7 +24,7 @@ const getUserById = (req, res) => {
 const createUser = (req, res) => {
   User.create(req.body)
     .then((user) => {
-      res.status(201).send(user);
+      res.status(200).send(user);
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
