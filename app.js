@@ -40,7 +40,8 @@ app.use(routesUser);
 app.use(routesCard);
 
 app.post('/signin', validateSignin, login);
-app.post('/signup', auth, validateUserSignup, createUser);
+app.post('/signup', validateUserSignup, createUser);
+app.use(auth);
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Такой страницы не существует' });

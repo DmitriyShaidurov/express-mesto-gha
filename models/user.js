@@ -7,16 +7,16 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   name: {
-    type: String, // имя — это строка
-    default: 'Жак-Ив Кусто', // оно должно быть у каждого пользователя, так что имя — обязательное поле
-    minlength: 2, // минимальная длина имени — 2 символа
-    maxlength: 30, // а максимальная — 30 символов
+    type: String,
+    default: 'Жак-Ив Кусто',
+    minlength: 2,
+    maxlength: 30,
   },
   about: {
-    type: String, // имя — это строка
-    default: 'Исследователь', // оно должно быть у каждого пользователя, так что имя — обязательное поле
-    minlength: 2, // минимальная длина имени — 2 символа
-    maxlength: 30, // а максимальная — 30 символов
+    type: String,
+    default: 'Исследователь',
+    minlength: 2,
+    maxlength: 30,
   },
   avatar: {
     type: String,
