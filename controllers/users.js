@@ -8,12 +8,13 @@ const AlreadyRegisterError = require('../errors/alreadyRegisterErr');
 
 // eslint-disable-next-line consistent-return
 const getUsers = async (req, res, next) => {
-  try {
-    const user = await User.find({});
-    return res.send(user);
-  } catch (err) {
-    next(err);
-  }
+  User.find({})
+    .then((users) => {
+      res.status(200).send(users);
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 const getUser = (req, res, next) => {
