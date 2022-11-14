@@ -21,12 +21,6 @@ const userSchema = new Schema({
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-    validate: {
-      validator: (v) =>
-        // eslint-disable-next-line implicit-arrow-linebreak
-        /^(https?:\/\/)([\da-z.-]+)\.([a-z.]{2,6})([/\w\W.-]*)#?$/g.test(v),
-      message: 'Некорректный URL',
-    },
   },
   email: {
     type: String,
