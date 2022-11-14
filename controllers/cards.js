@@ -86,7 +86,7 @@ const dislikeCard = (req, res, next) => {
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(new NotFoundError('Переданы некорректные данные для удаления лайка'));
+        next(new BadRequestError('Переданы некорректные данные для удаления лайка'));
       }
       next(err);
     });
