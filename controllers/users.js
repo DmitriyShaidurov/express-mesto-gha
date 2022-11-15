@@ -95,7 +95,7 @@ const updateUser = (req, res, next) => {
 const updateUserAvatar = (req, res, next) => {
   // eslint-disable-next-line max-len
   User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new BadRequestError('Пользователь с указанным _id не найден.'))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
