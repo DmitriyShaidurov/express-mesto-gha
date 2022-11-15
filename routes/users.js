@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const auth = require('../middlewares/auth');
 
 const {
   getUsers, getUserById, updateUser, updateUserAvatar, getUser,
@@ -14,7 +15,7 @@ router.get('/users/:userId', celebrate({
   headers: Joi.object.keys({
     Autorization: Joi.string.token(),
   }).unknown(true),
-}), getUserById);
+}), auth, getUserById);
 
 router.get('/users', getUsers);
 
