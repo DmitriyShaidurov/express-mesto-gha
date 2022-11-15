@@ -16,7 +16,7 @@ router.get('/users/:userId', celebrate({
 router.get('/users', getUsers);
 
 router.patch('/users/me', celebrate({
-  params: Joi.object().keys({
+  body: Joi.object().keys({
     name: Joi.string().min(2).length(30),
     about: Joi.string().min(2).length(30),
   }),
