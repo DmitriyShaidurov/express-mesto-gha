@@ -1,6 +1,7 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const routesUser = require('./routes/users');
 const routesCard = require('./routes/cards');
@@ -34,6 +35,8 @@ const validateSignin = celebrate({
     password: Joi.string().required().min(8),
   }),
 });
+
+app.use(cookieParser());
 
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateUserSignup, createUser);
