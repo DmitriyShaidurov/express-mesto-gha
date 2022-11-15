@@ -9,11 +9,11 @@ router.get('/cards', getCard);
 
 router.post('/cards', createCard);
 
-router.delete('/cards/:cardId', celebrate({
+router.delete('/cards/:cardId', deleteCard); /* celebrate({
   body: Joi.object().keys({
-    _id: Joi.objectId(),
+    id: Joi.objectId(),
   }),
-}), deleteCard);
+}), */
 
 router.put('/cards/:cardId/likes', likeCard);
 
