@@ -93,7 +93,8 @@ const updateUser = (req, res, next) => {
 };
 
 const updateUserAvatar = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new NotFoundError('User с указанным _id не найден'))
+  // eslint-disable-next-line max-len
+  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true })
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.message === 'NotValidId') {
