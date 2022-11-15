@@ -94,7 +94,12 @@ const updateUser = (req, res, next) => {
 
 const updateUserAvatar = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new NotFoundError('User с указанным _id не найден'))
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      if (!user) {
+        throw new NotFoundError('User с указанным _id не найден');
+      }
+      return res.status(200).send(user);
+    })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
