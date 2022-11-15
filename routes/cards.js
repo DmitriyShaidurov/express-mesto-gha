@@ -11,7 +11,7 @@ router.post('/cards', createCard);
 
 router.delete('/cards/:cardId', celebrate({
   body: Joi.object().keys({
-    id: Joi.objectId(),
+    _id: Joi.objectId(),
   }),
 }), deleteCard);
 
