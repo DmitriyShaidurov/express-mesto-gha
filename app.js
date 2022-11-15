@@ -40,10 +40,9 @@ app.use(cookieParser());
 
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateUserSignup, createUser);
-
+app.use(auth);
 app.use(routesUser);
 app.use(routesCard);
-app.use(auth);
 
 app.use((req, res) => {
   res.status(404).send({ message: 'Такой страницы не существует' });
