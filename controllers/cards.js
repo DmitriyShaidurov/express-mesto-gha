@@ -13,7 +13,7 @@ const getCard = async (req, res, next) => {
   }
 };
 
-module.exports.deleteCard = (req, res, next) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const owner = req.user._id;
   Card.findById(cardId)
@@ -22,9 +22,9 @@ module.exports.deleteCard = (req, res, next) => {
         throw new NoAccessErr('Нет прав на удаление карточки');
       }
       Card.findByIdAndRemove(cardId)
-        .then((deleteCard) => {
-          if (deleteCard) {
-            res.status(200).send(deleteCard);
+        .then((cardDel) => {
+          if (cardDel) {
+            res.status(200).send({ data: cardDel });
           }
           throw NotFoundError('Карточка с указанным _id не найдена.');
         });
@@ -95,6 +95,7 @@ const dislikeCard = (req, res, next) => {
 module.exports = {
   getCard,
   createCard,
+  deleteCard,
   likeCard,
   dislikeCard,
 };
