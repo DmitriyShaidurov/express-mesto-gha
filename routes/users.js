@@ -22,6 +22,10 @@ router.patch('/users/me', celebrate({
   }),
 }), updateUser);
 
-router.patch('/users/me/avatar', updateUserAvatar);
+router.patch('/users/me/avatar', celebrate({
+  avatar: Joi.string().regex(
+    /^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/,
+  ),
+}), updateUserAvatar);
 
 module.exports = router;
