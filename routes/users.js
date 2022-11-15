@@ -12,7 +12,7 @@ router.get('/users/:userId', celebrate({
     userId: Joi.string().alphanum().length(24),
   }),
   headers: Joi.object.keys({
-    Autorization: Joi.string.token(),
+    Autorization: Joi.string().token(),
   }).unknown(true),
 }), getUserById);
 
