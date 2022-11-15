@@ -81,7 +81,7 @@ const createUser = (req, res, next) => {
   });
 };
 const updateUser = (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }, { new: true, runValidators: true }).orFail(new NotFoundError('Пользователь с указанным _id не найден.'))
+  User.findByIdAndUpdate(req.user._id, { name: req.body.name, about: req.body.about }, { new: true, runValidators: true }).orFail(new BadRequestError('Пользователь с указанным _id не найден.'))
     .then((user) => res.status(200).send(user))
     // eslint-disable-next-line consistent-return
     .catch((err) => {
@@ -94,8 +94,8 @@ const updateUser = (req, res, next) => {
 
 const updateUserAvatar = (req, res, next) => {
   // eslint-disable-next-line max-len
-  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new NotFoundError('Пользователь с указанным _id не найден.'))
-    .then((user) => res.status(200).send(user))
+  User.findByIdAndUpdate(req.user._id, { avatar: req.body.avatar }, { new: true, runValidators: true }).orFail(new BadRequestError('Пользователь с указанным _id не найден.'))
+    .then((user) => res.status(200).send({ data: user }))
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
