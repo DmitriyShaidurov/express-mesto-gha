@@ -7,16 +7,19 @@ const {
 
 router.get('/users/me', getUser);
 
+router.get('/users/:userId', celebrate({
+  params: Joi.object().keys({
+    userId: Joi.string.id().length(24),
+  }),
+  headers: Joi.object.keys({
+    Autorization: Joi.string.token(),
+  }).unknown(true),
+}), getUserById);
+
 router.get('/users', getUsers);
 
 router.patch('/users/me', updateUser);
 
 router.patch('/users/me/avatar', updateUserAvatar);
-
-router.get('/users/:userId', celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string.id().length(24),
-  }),
-}), getUserById);
 
 module.exports = router;
