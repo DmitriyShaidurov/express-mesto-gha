@@ -16,7 +16,7 @@ const getCard = async (req, res, next) => {
 const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const owner = req.user._id;
-  Card.findById(cardId)
+  Card.findById(cardId).orFail(new NotFoundError('Карточка с указанным _id не найдена.'))
     .then((card) => {
       if (!(card.owner._id.toString() === owner)) {
         throw new NoAccessErr('Нет прав на удаление карточки');
