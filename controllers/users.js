@@ -22,7 +22,6 @@ const getUser = (req, res, next) => {
   User.findById(userId).orFail(new NotFoundError('User с указанным _id не найден'))
     .then((user) => res.status(200).send(user))
     .catch((err) => {
-      console.log(err);
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Переданы некорректные данные.'));
       }
