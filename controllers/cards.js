@@ -57,7 +57,7 @@ const likeCard = (req, res, next) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true },
-  ).orFail(new Error('NotFound'))
+  )
     .then((card) => {
       if (card) {
         return res.status(200).send(card);
