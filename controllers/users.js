@@ -24,8 +24,9 @@ const getUser = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Переданы некорректные данные.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -41,8 +42,9 @@ const getUserById = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequestError('Переданы некорректные данные.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -74,8 +76,9 @@ const createUser = (req, res, next) => {
           next(new BadRequestError('Ошибка валидации'));
         } else if (err.code === 11000) {
           next(new AlreadyRegisterError('Пользователь уже зарегистрирован'));
+        } else {
+          next(err);
         }
-        next(err);
       });
   });
 };
@@ -86,8 +89,9 @@ const updateUser = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -98,8 +102,9 @@ const updateUserAvatar = (req, res, next) => {
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
         next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
