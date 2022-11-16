@@ -7,6 +7,7 @@ const routesUser = require('./routes/users');
 const routesCard = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/notFoundErr');
 
 const { PORT = 3000, MONGO_URL = 'mongodb://localhost:27017/mestodb' } = process.env;
 
@@ -45,7 +46,7 @@ app.use(routesUser);
 app.use(routesCard);
 
 app.use((req, res, next) => {
-  next(res.status(404).send({ message: 'Такой страницы не существует' }));
+  next(new NotFoundError('Страница не найдена'));
 });
 
 app.use(errors());
