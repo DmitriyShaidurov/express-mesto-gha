@@ -44,9 +44,8 @@ app.use(auth);
 app.use(routesUser);
 app.use(routesCard);
 
-app.use((err, req, res, next) => {
+app.use((req, res) => {
   res.status(404).send({ message: 'Такой страницы не существует' });
-  next();
 });
 
 app.use(errors());
