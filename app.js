@@ -45,12 +45,7 @@ app.use(routesUser);
 app.use(routesCard);
 
 app.use((err, req, res, next) => {
-  const { statusCode = 404, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 404
-      ? 'Такой страницы не существует'
-      : message,
-  });
+  res.status(404).send({ message: 'Такой страницы не существует' });
   next();
 });
 
