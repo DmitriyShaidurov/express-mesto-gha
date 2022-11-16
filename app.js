@@ -21,7 +21,7 @@ app.use(express.json());
 const validateUserSignup = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().regex(
@@ -32,7 +32,7 @@ const validateUserSignup = celebrate({
 const validateSignin = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 });
 
@@ -44,8 +44,14 @@ app.use(auth);
 app.use(routesUser);
 app.use(routesCard);
 
-app.use((req, res) => {
-  res.status(404).send({ message: 'Такой страницы не существует' });
+app.use((err, req, res, next) => {
+  const { statusCode = 404, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 404
+      ? 'Такой страницы не существует'
+      : message,
+  });
+  next();
 });
 
 app.use(errors());
