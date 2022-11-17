@@ -3,6 +3,7 @@ const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const routesUser = require('./routes/users');
 const routesCard = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
@@ -38,17 +39,17 @@ const validateSignin = celebrate({
 });
 
 app.use(cookieParser());
-
+app.use(requestLogger);
 app.post('/signin', validateSignin, login);
 app.post('/signup', validateUserSignup, createUser);
 app.use(auth);
 app.use(routesUser);
 app.use(routesCard);
-
 app.use((req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
 
+app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
